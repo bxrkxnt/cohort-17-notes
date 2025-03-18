@@ -1,73 +1,43 @@
-'''Contains algorithm to determine latest time from a list of digits'''
-
+"""Returns the latest time given a list of integers"""
 
 def get_first_digit(digits: list[int]) -> int:
-
-    optional_digits = []
-    optional_digits_one = []
+    """Returns the first digit"""
+    digits.sort(reverse=True)
     for digit in digits:
-        optional_digits.append(digit)
-        if digit == 0 or digit == 1 or digit == 2:
-            optional_digits_one.append(digit)
-
-    first_digit = max(optional_digits_one)
-    optional_digits.remove(first_digit)
-    return first_digit, optional_digits
+        if digit < 3:
+            return digit
+    raise ValueError("Incorrect input")
 
 
 def get_second_digit(digits: list[int], first_digit: int) -> int:
-
-    optional_digits = [x for x in digits if x <= 9]
-    # print(optional_digits)
-
-    if first_digit == 2:
-        optional_digits_two = []
-        for digit in optional_digits:
-            if digit == 0 or digit == 1 or digit == 2:
-                optional_digits_two.append(digit)
-
-        second_digit = max(optional_digits_two)
-        optional_digits.remove(second_digit)
-        return second_digit, optional_digits
-
-    else:
-        second_digit = max(optional_digits)
-        optional_digits.remove(second_digit)
-        return second_digit, optional_digits
+    """Returns the second digit"""
+    digits.sort(reverse=True)
+    if first_digit < 2:
+        return max(digits)
+    for digit in digits:
+        if digit < 4:
+            return digit
+    raise ValueError("Incorrect input")
 
 
 def get_third_digit(digits: list[int]) -> int:
-
-    optional_digits = [digit for digit in digits]
-    optional_digits_third = [x for x in digits if x <= 6]
-
-    # for debugging
-    # print(optional_digits)
-    # print(optional_digits_third)
-
-    third_digit = max(optional_digits_third)
-    optional_digits.remove(third_digit)
-
-    return third_digit, optional_digits
+    """Returns the third digit"""
+    for digit in digits:
+        if digit < 6:
+            return digit
+    raise ValueError("Incorrect input")
 
 
-def get_fourth_digit(digits: list[int]) -> int:
-    if len(digits) <= 1:
-        fourth_digit = digits[0]
+def find_latest_time(digits: list[int]) -> str:
+    """Returns the latest time"""
+    digits.sort()
+    first_digit = get_first_digit(digits)
+    digits.remove(first_digit)
 
-    return fourth_digit
+    second_digit = get_second_digit(digits, first_digit)
+    digits.remove(second_digit)
 
+    third_digit = get_third_digit(digits)
+    digits.remove(third_digit)
 
-if (__name__ == "__main__"):
-
-    first, first_list_remaining = get_first_digit([2, 5, 7, 0])
-
-    second, second_list_remaining = get_second_digit(
-        first_list_remaining, first)
-
-    third, third_list_remaining = get_third_digit(second_list_remaining)
-
-    fourth = get_fourth_digit(third_list_remaining)
-
-    print(
-        f"The latest time with the combination given is: {first}{second}:{third}{fourth}")
+    return f"{first_digit}{second_digit}:{third_digit}{digits[0]}"
