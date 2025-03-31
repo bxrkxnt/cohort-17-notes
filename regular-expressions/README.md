@@ -15,7 +15,8 @@ Regular expressions: a language for pattern-matching text.
 - `{n}` for exactly this many
 - `\w` any alphanumeric character (including _)
 - `\d` for any digit
-- `?` for optional
+- `?` for optionally the preceding token
+- 
 ## Data
 
 - `curl https://www.gutenberg.org/cache/epub/10007/pg10007.txt -o carmilla.txt`

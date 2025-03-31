@@ -12,7 +12,7 @@ def test_get_user_repo_count_returns_int(requests_mock):
 
     # Ensure that, if a request is made to the outside world, it is intercepted
     # You need to fake the request well enough not to be detected
-    requests_mock.get("https://api.github.com/users/zertidana",
+    m = requests_mock.get("https://api.github.com/users/zertidana",
                       status_code=200, json={"public_repos": 3})
 
     result = get_user_repo_count("zertidana")
@@ -32,3 +32,15 @@ def test_get_user_repo_count_raises_error_on_404(requests_mock):
 
     with pytest.raises(ValueError):
         get_user_repo_count("zertikyle")
+
+
+def test_get_user_repo_count_makes_1_get_request(requests_mock):
+    """Checks that the function returns an integer."""
+
+    requests_mock.get("https://api.github.com/users/zertidana",
+                      status_code=200, json={"public_repos": 3})
+
+    result = get_user_repo_count("zertidana")
+
+    assert requests_mock.call_count == 1
+    assert requests_mock.request_history[0].method == 'GET'

@@ -28,5 +28,4 @@ def display_ascii_gift(gift: str) -> None:
 
 if __name__ == "__main__":
 
-    PREFIXED_WORD = "trans-siberian"
-    print(get_prefix(PREFIXED_WORD))
+    display_ascii_gift("hat")

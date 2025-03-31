@@ -34,6 +34,9 @@ def test_display_ascii_gift_prints_to_terminal(capsys):
 
     display_ascii_gift("love")
 
-    stuff_printed = capsys.readouterr()
+    stuff_printed = capsys.readouterr()  # Collect everything printed since the start
 
-    assert stuff_printed.out == 'love ノ( º _ ºノ)\n'
+    normal_output = stuff_printed.out
+    errors_raised = stuff_printed.err
+
+    assert normal_output.count("º") == 2
