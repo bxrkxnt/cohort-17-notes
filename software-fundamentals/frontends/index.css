@@ -1,0 +1,43 @@
+body {
+    background-color: #128731;
+    color: yellow;
+}
+p {
+    color: blue;
+}
+h1 {
+    color: red;
+}
+h2 {
+    color: rgb(255, 255, 255);
+}
+.not-red {
+    color: aliceblue;
+}
+p.not-red {
+    color: cyan;
+    font-size: 4em;
+}
+div {
+    margin: 10px;
+    background-color: aqua;
+    width: 400px;
+    text-align: center;
+}
+#shape {
+    background-color: beige;
+    color: blue;
+    width: 400px;
+    height: 400px;
+    margin: auto;
+}
+.really-big {
+    font-size: 6em;
+}
+
+.flexing-my-boxes {
+    margin: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-around; /* space-around, space-between, space-evenly */
+}
