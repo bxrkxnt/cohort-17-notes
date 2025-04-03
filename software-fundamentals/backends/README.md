@@ -1,4 +1,6 @@
-# REST
+# APIs
+
+## REST
 
 - **RE**presentational **S**tate **T**ransfer
 - An architectural style
@@ -7,7 +9,7 @@
 
 RESTful service == a service built using REST principles
 
-## Features/Principles/Constraints
+### Features/Principles/Constraints
 
 RESTful services are about managing **resources**. Servers manage resources, clients make requests about them. Only **representations** of resources are communicated.
 
@@ -18,7 +20,19 @@ RESTful services are about managing **resources**. Servers manage resources, cli
 - Layered System : Components only engage with layers they directly need to
 - Code-on-Demand : The server can return code to extend behaviour
 
-## Conventional REST
+### Conventional REST
 
 - JSON over HTTPS
 - Standardised routes 
+
+## Testing
+
+- Functions should be single-focus
+  - Route functions should only focus on reading requests/sending responses
+  - Route functions should call other functions to do other work
+  - Non-route functions should not build routes/return JSON/etc.
+- Remove non-route functions to another file
+- Start with the easy tests
+  - Pure functions
+  - Simple routes
+- Don't get overly specific/brittle
