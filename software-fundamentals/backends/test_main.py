@@ -76,3 +76,15 @@ def test_companies_calls_add_new_on_valid(fake_load, fake_add, fake_is_valid, te
     response = test_api.post("/company", json={})
 
     assert fake_add.call_count == 1
+
+@patch("main.save_companies")
+@patch("main.load_companies")
+def test_company_id_edits_data(fake_load_companies, save_companies, test_api):
+
+    fake_stories = [{"id": 1}, {"id": 7}]
+    fake_load_companies.return_value = fake_stories
+
+    response = test_api.patch("/company/7")
+
+    assert response.json["edited"] == 1
+    assert fake_stories[1]["edited"] == 1
