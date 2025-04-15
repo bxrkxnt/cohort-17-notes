@@ -45,3 +45,34 @@ ORDER BY pl.planet_name, rank_within_planet;
 -- For each planet, I want to know the party that serves the most different types of tea.
 -- Additionally, I want to know the average rating of these parties to ensure I'm attending high-quality events.
 -- https://mode.com/sql-tutorial/sql-window-functions
+
+WITH TeaBlendCounts AS (
+    -- Count the number of unique tea blends served at each party
+    SELECT
+        tpb.tea_party_id,
+        tp.tea_party_name,
+        tp.tea_party_host_planet,
+        AVG(tpr.rating) as avg_rating,
+        COUNT(DISTINCT tpb.tea_blend_id) AS blend_count
+    FROM
+        tea_party_blend_assignment as tpb
+    JOIN
+        tea_party tp ON tpb.tea_party_id = tp.tea_party_id
+    JOIN    
+        tea_party_rating as tpr ON tpr.tea_party_id = tp.tea_party_id
+    GROUP BY
+        tpb.tea_party_id, tp.tea_party_name, tp.tea_party_host_planet
+)
+SELECT
+    tbc.tea_party_id,
+    tbc.tea_party_name,
+    pl.planet_name,
+    tbc.blend_count,
+    tbc.avg_rating,
+    RANK() OVER (PARTITION BY tbc.tea_party_host_planet ORDER BY tbc.blend_count DESC) AS blend_rank_within_planet
+FROM
+    TeaBlendCounts tbc
+JOIN
+    planet pl ON tbc.tea_party_host_planet = pl.planet_id
+ORDER BY
+    pl.planet_name, blend_rank_within_planet;
