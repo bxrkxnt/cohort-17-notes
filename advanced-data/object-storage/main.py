@@ -21,6 +21,19 @@ def get_object_names_from_bucket(s3_client: client, bucket_name: str) -> list[st
     return [o["Key"] for o in objects]
 
 
+def download_files_by_name(s3_client: client, bucket: str, files: list[str]) -> None:
+    """Downloads all files from a given bucket."""
+
+    for o in files:
+        s3_client.download_file(bucket, o, f"data/{o}")
+
+
+def filter_filenames(files: list[str], prefix: str) -> list[str]:
+    """Returns only names that match the filter."""
+
+    return [f for f in files if f.startswith(prefix)]
+
+
 if __name__ == "__main__":
 
     load_dotenv()  # Reads variables from .env into the environment
@@ -28,9 +41,7 @@ if __name__ == "__main__":
     s3 = client("s3", aws_access_key_id=ENV["AWS_ACCESS_KEY_ID"],
                 aws_secret_access_key=ENV["AWS_SECRET_ACCESS_KEY"])
 
-    objects = get_object_names_from_bucket(s3, ENV["S3_BUCKET_NAME"])
-
-    for o in objects:
-        s3.download_file(ENV["S3_BUCKET_NAME"], o, f"data/{o}")
+    files = filter_filenames(get_object_names_from_bucket(s3, ENV["BUCKET_NAME"]))
+    download_files_by_name(s3, ENV["BUCKET_NAME"])
 
     s3.close()
