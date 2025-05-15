@@ -36,6 +36,7 @@ resource "aws_vpc_security_group_ingress_rule" "db-sg-inbound-rule" {
     to_port     = 5432
 }
 
+
 resource "aws_db_instance" "museum-db" {
     allocated_storage            = 10
     db_name                      = "postgres"
