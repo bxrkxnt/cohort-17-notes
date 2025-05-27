@@ -12,6 +12,15 @@ from charts import get_behaviour_bar_chart
 
 if __name__ == "__main__":
 
+    fake_data = {
+        "today" : 10,
+        "yesterday" : 55 
+    }
+    delta = fake_data["today"] - fake_data["yesterday"]
+
+    st.metric("Metric name", fake_data["today"], delta=delta)
+
+
     load_dotenv()
 
     aws_session = get_boto3_session(access_key=ENV["AWS_ACCESS_KEY"], secret_key=ENV["AWS_SECRET_ACCESS_KEY"])
@@ -40,3 +49,5 @@ if __name__ == "__main__":
         st.subheader("Bad rabbits")
         st.altair_chart(get_behaviour_bar_chart(rabbits, "bad", sorted))
     print("Charts generated!")
+
+
