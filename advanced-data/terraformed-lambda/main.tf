@@ -38,9 +38,26 @@ data "aws_iam_policy_document" "lambda-role-permissions-policy-doc" {
       actions = [
         "logs:CreateLogGroup",
         "logs:CreateLogStream",
-        "logs:PutLogEvents"
+        "logs:PutLogEvents",
       ]
       resources = [ "arn:aws:logs:eu-west-2:129033205317:*" ]
+    }
+
+    statement {
+      effect = "Allow"
+      actions = [
+        "s3:*"
+      ]
+      resources = [ "*" ]
+    }
+
+    statement {
+      effect = "Allow"
+      actions = [
+        "glue:*",
+        "athena:*"
+      ]
+      resources = [ "*" ]
     }
 }
 
@@ -69,6 +86,7 @@ resource "aws_lambda_function" "example-lambda" {
   role = aws_iam_role.lambda-role.arn
   package_type = "Image"
   image_uri = data.aws_ecr_image.lambda-image-version.image_uri
+  timeout = 120
   environment {
     variables = {
          DB_URL = "3" 
